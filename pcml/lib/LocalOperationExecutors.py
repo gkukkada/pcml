@@ -26,6 +26,21 @@ def LocalSum_np(self, subdomains):
 
 @executor
 @localoperation
+def LocalDiff_np(self, subdomains):
+    # NOTE: Assumes 3 subdomains, first is output, second and third should be added
+    # Get the array from the output subdomain
+    outsubdomain = subdomains[0]
+    outarr = outsubdomain.get_nparray()
+
+    # Apply numpy operation to arrays from second and third subdomains
+    arr=np.subtract(subdomains[1].get_nparray(),subdomains[2].get_nparray())
+    # Copy values to outarr (outsubdomain)
+    outarr[:,:]=arr
+    # Notice we don't need to return anything, because the resulting array (arr) is copied to outsubdomain through outarr 
+
+
+@executor
+@localoperation
 def LocalMult_np(self, subdomains):
     # NOTE: Assumes 3 subdomains, first is output, second and third should be added
     # Get the array from the output subdomain
